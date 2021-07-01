@@ -411,5 +411,16 @@
     "description": "",
     "layer_desc": "Spreadsheet data",
     "icon": "#cc12cc"
+  },
+  "test": {
+    "name": "test",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_desc": "Spreadsheet data",
+    "icon": "#cc12cc"
   }
 }
