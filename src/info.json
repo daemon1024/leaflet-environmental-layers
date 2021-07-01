@@ -411,5 +411,16 @@
     "description": "",
     "layer_desc": "Spreadsheet data",
     "icon": "#cc12cc"
+  },
+  "final-pr-test": {
+    "name": "final-pr-test",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_desc": "Spreadsheet data",
+    "icon": "#cc12cc"
   }
 }
