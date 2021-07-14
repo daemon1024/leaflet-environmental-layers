@@ -411,5 +411,15 @@
     "description": "",
     "layer_desc": "Spreadsheet data",
     "icon": "#cc12cc"
+  },
+  "Hello_World": {
+    "name": "Hello_World",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "icon": "#cc12cc"
   }
 }
