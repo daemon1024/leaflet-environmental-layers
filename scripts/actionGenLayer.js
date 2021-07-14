@@ -30,7 +30,7 @@ async function run() {
       if (token.lang === "json") {
         const layerData = JSON.parse(token.text);
         //Handle names with spaces
-        layerData.name = layerData.split(" ").join("_");
+        layerData.name = layerData.name.split(" ").join("_");
         console.log(layerData);
         await generateSpreadsheetLayer(layerData, true);
         const gitUserEmail = "github-actions[bot]@users.noreply.github.com";
@@ -59,5 +59,15 @@ async function run() {
 }
 
 run().catch((e) => {
-  core.setFailed(e);
+  try {
+    exec(
+      `git config --global user.email "github-actions[bot]@users.noreply.github.com"`
+    );
+    exec(`git config --global user.name "github-actions[bot]"`);
+    exec(
+      `gh issue comment ${github.context.payload.issue.html_url} --body 'Action Failed to execute. \n > This is auto-generared'`
+    );
+  } finally {
+    core.setFailed(e);
+  }
 });
