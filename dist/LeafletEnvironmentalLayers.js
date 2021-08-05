@@ -11389,31 +11389,13 @@ return jQuery;
 				};
 			}
 
-			var forceHTTP = window.location.protocol === 'file:' || provider.options.forceHTTP;
-			if (provider.url.indexOf('//') === 0 && forceHTTP) {
-				provider.url = 'http:' + provider.url;
-			}
-
-			// If retina option is set
-			if (provider.options.retina) {
-				// Check retina screen
-				if (options.detectRetina && L.Browser.retina) {
-					// The retina option will be active now
-					// But we need to prevent Leaflet retina mode
-					options.detectRetina = false;
-				} else {
-					// No retina, remove option
-					provider.options.retina = '';
-				}
-			}
-
 			// replace attribution placeholders with their values from toplevel provider attribution,
 			// recursively
 			var attributionReplacer = function (attr) {
 				if (attr.indexOf('{attribution.') === -1) {
 					return attr;
 				}
-				return attr.replace(/\{attribution.(\w*)\}/,
+				return attr.replace(/\{attribution.(\w*)\}/g,
 					function (match, attributionName) {
 						return attributionReplacer(providers[attributionName].options.attribution);
 					}
@@ -11434,41 +11416,45 @@ return jQuery;
 
 	L.TileLayer.Provider.providers = {
 		OpenStreetMap: {
-			url: '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+			url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
 				attribution:
-					'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+					'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 			},
 			variants: {
 				Mapnik: {},
-				BlackAndWhite: {
-					url: 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png',
+				DE: {
+					url: 'https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
 					options: {
 						maxZoom: 18
 					}
 				},
-				DE: {
-					url: '//{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png',
+				CH: {
+					url: 'https://tile.osm.ch/switzerland/{z}/{x}/{y}.png',
 					options: {
-						maxZoom: 18
+						maxZoom: 18,
+						bounds: [[45, 5], [48, 11]]
 					}
 				},
 				France: {
-					url: '//{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
+					url: 'https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png',
 					options: {
 						maxZoom: 20,
-						attribution: '&copy; Openstreetmap France | {attribution.OpenStreetMap}'
+						attribution: '&copy; OpenStreetMap France | {attribution.OpenStreetMap}'
 					}
 				},
 				HOT: {
-					url: '//{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
+					url: 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png',
 					options: {
-						attribution: '{attribution.OpenStreetMap}, Tiles courtesy of <a href="http://hot.openstreetmap.org/" target="_blank">Humanitarian OpenStreetMap Team</a>'
+						attribution:
+							'{attribution.OpenStreetMap}, ' +
+							'Tiles style by <a href="https://www.hotosm.org/" target="_blank">Humanitarian OpenStreetMap Team</a> ' +
+							'hosted by <a href="https://openstreetmap.fr/" target="_blank">OpenStreetMap France</a>'
 					}
 				},
 				BZH: {
-					url: 'http://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png',
+					url: 'https://tile.openstreetmap.bzh/br/{z}/{x}/{y}.png',
 					options: {
 						attribution: '{attribution.OpenStreetMap}, Tiles courtesy of <a href="http://www.openstreetmap.bzh/" target="_blank">Breton OpenStreetMap Team</a>',
 						bounds: [[46.2, -5.5], [50, 0.7]]
@@ -11477,20 +11463,69 @@ return jQuery;
 			}
 		},
 		OpenSeaMap: {
-			url: 'http://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
+			url: 'https://tiles.openseamap.org/seamark/{z}/{x}/{y}.png',
 			options: {
 				attribution: 'Map data: &copy; <a href="http://www.openseamap.org">OpenSeaMap</a> contributors'
 			}
 		},
+		OpenPtMap: {
+			url: 'http://openptmap.org/tiles/{z}/{x}/{y}.png',
+			options: {
+				maxZoom: 17,
+				attribution: 'Map data: &copy; <a href="http://www.openptmap.org">OpenPtMap</a> contributors'
+			}
+		},
 		OpenTopoMap: {
-			url: '//{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+			url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 17,
 				attribution: 'Map data: {attribution.OpenStreetMap}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
 			}
 		},
+		OpenRailwayMap: {
+			url: 'https://{s}.tiles.openrailwaymap.org/standard/{z}/{x}/{y}.png',
+			options: {
+				maxZoom: 19,
+				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://www.OpenRailwayMap.org">OpenRailwayMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+			}
+		},
+		OpenFireMap: {
+			url: 'http://openfiremap.org/hytiles/{z}/{x}/{y}.png',
+			options: {
+				maxZoom: 19,
+				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="http://www.openfiremap.org">OpenFireMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+			}
+		},
+		SafeCast: {
+			url: 'https://s3.amazonaws.com/te512.safecast.org/{z}/{x}/{y}.png',
+			options: {
+				maxZoom: 16,
+				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://blog.safecast.org/about/">SafeCast</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+			}
+		},
+		Stadia: {
+			url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png',
+			options: {
+				maxZoom: 20,
+				attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+			},
+			variants: {
+				AlidadeSmooth: {
+					url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png'
+				},
+				AlidadeSmoothDark: {
+					url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
+				},
+				OSMBright: {
+					url: 'https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png'
+				},
+				Outdoors: {
+					url: 'https://tiles.stadiamaps.com/tiles/outdoors/{z}/{x}/{y}{r}.png'
+				}
+			}
+		},
 		Thunderforest: {
-			url: '//{s}.tile.thunderforest.com/{variant}/{z}/{x}/{y}.png?apikey={apikey}',
+			url: 'https://{s}.tile.thunderforest.com/{variant}/{z}/{x}/{y}.png?apikey={apikey}',
 			options: {
 				attribution:
 					'&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, {attribution.OpenStreetMap}',
@@ -11517,36 +11552,22 @@ return jQuery;
 				},
 				Landscape: 'landscape',
 				Outdoors: 'outdoors',
-				Pioneer: 'pioneer'
+				Pioneer: 'pioneer',
+				MobileAtlas: 'mobile-atlas',
+				Neighbourhood: 'neighbourhood'
 			}
 		},
-		OpenMapSurfer: {
-			url: 'http://korona.geog.uni-heidelberg.de/tiles/{variant}/x={x}&y={y}&z={z}',
+		CyclOSM: {
+			url: 'https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 20,
-				variant: 'roads',
-				attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data {attribution.OpenStreetMap}'
-			},
-			variants: {
-				Roads: 'roads',
-				AdminBounds: {
-					options: {
-						variant: 'adminb',
-						maxZoom: 19
-					}
-				},
-				Grayscale: {
-					options: {
-						variant: 'roadsg',
-						maxZoom: 19
-					}
-				}
+				attribution: '<a href="https://github.com/cyclosm/cyclosm-cartocss-style/releases" title="CyclOSM - Open Bicycle render">CyclOSM</a> | Map data: {attribution.OpenStreetMap}'
 			}
 		},
 		Hydda: {
-			url: '//{s}.tile.openstreetmap.se/hydda/{variant}/{z}/{x}/{y}.png',
+			url: 'https://{s}.tile.openstreetmap.se/hydda/{variant}/{z}/{x}/{y}.png',
 			options: {
-				maxZoom: 18,
+				maxZoom: 20,
 				variant: 'full',
 				attribution: 'Tiles courtesy of <a href="http://openstreetmap.se/" target="_blank">OpenStreetMap Sweden</a> &mdash; Map data {attribution.OpenStreetMap}'
 			},
@@ -11556,19 +11577,75 @@ return jQuery;
 				RoadsAndLabels: 'roads_and_labels'
 			}
 		},
-		MapBox: {
-			url: '//api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+		Jawg: {
+			url: 'https://{s}.tile.jawg.io/{variant}/{z}/{x}/{y}{r}.png?access-token={accessToken}',
 			options: {
 				attribution:
-					'Imagery from <a href="http://mapbox.com/about/maps/">MapBox</a> &mdash; ' +
-					'Map data {attribution.OpenStreetMap}',
+					'<a href="http://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> ' +
+					'{attribution.OpenStreetMap}',
+				minZoom: 0,
+				maxZoom: 22,
 				subdomains: 'abcd',
-				id: 'streets',
+				variant: 'jawg-terrain',
+				// Get your own Jawg access token here : https://www.jawg.io/lab/
+				// NB : this is a demonstration key that comes with no guarantee
+				accessToken: '<insert your access token here>',
+			},
+			variants: {
+				Streets: 'jawg-streets',
+				Terrain: 'jawg-terrain',
+				Sunny: 'jawg-sunny',
+				Dark: 'jawg-dark',
+				Light: 'jawg-light',
+				Matrix: 'jawg-matrix'
+			}
+		},
+		MapBox: {
+			url: 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}{r}?access_token={accessToken}',
+			options: {
+				attribution:
+					'&copy; <a href="https://www.mapbox.com/about/maps/" target="_blank">Mapbox</a> ' +
+					'{attribution.OpenStreetMap} ' +
+					'<a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a>',
+				tileSize: 512,
+				maxZoom: 18,
+				zoomOffset: -1,
+				id: 'mapbox/streets-v11',
 				accessToken: '<insert your access token here>',
 			}
 		},
+		MapTiler: {
+			url: 'https://api.maptiler.com/maps/{variant}/{z}/{x}/{y}{r}.{ext}?key={key}',
+			options: {
+				attribution:
+					'<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+				variant: 'streets',
+				ext: 'png',
+				key: '<insert your MapTiler Cloud API key here>',
+				tileSize: 512,
+				zoomOffset: -1,
+				minZoom: 0,
+				maxZoom: 21
+			},
+			variants: {
+				Streets: 'streets',
+				Basic: 'basic',
+				Bright: 'bright',
+				Pastel: 'pastel',
+				Positron: 'positron',
+				Hybrid: {
+					options: {
+						variant: 'hybrid',
+						ext: 'jpg'
+					}
+				},
+				Toner: 'toner',
+				Topo: 'topo',
+				Voyager: 'voyager'
+			}
+		},
 		Stamen: {
-			url: '//stamen-tiles-{s}.a.ssl.fastly.net/{variant}/{z}/{x}/{y}.{ext}',
+			url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/{variant}/{z}/{x}/{y}{r}.{ext}',
 			options: {
 				attribution:
 					'Map tiles by <a href="http://stamen.com">Stamen Design</a>, ' +
@@ -11588,8 +11665,10 @@ return jQuery;
 				TonerLabels: 'toner-labels',
 				TonerLite: 'toner-lite',
 				Watercolor: {
+					url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/{variant}/{z}/{x}/{y}.{ext}',
 					options: {
 						variant: 'watercolor',
+						ext: 'jpg',
 						minZoom: 1,
 						maxZoom: 16
 					}
@@ -11608,7 +11687,15 @@ return jQuery;
 						maxZoom: 18
 					}
 				},
+				TerrainLabels: {
+					options: {
+						variant: 'terrain-labels',
+						minZoom: 0,
+						maxZoom: 18
+					}
+				},
 				TopOSMRelief: {
+					url: 'https://stamen-tiles-{s}.a.ssl.fastly.net/{variant}/{z}/{x}/{y}.{ext}',
 					options: {
 						variant: 'toposm-color-relief',
 						ext: 'jpg',
@@ -11624,8 +11711,26 @@ return jQuery;
 				}
 			}
 		},
+		TomTom: {
+			url: 'https://{s}.api.tomtom.com/map/1/tile/{variant}/{style}/{z}/{x}/{y}.{ext}?key={apikey}',
+			options: {
+				variant: 'basic',
+				maxZoom: 22,
+				attribution:
+					'<a href="https://tomtom.com" target="_blank">&copy;  1992 - ' + new Date().getFullYear() + ' TomTom.</a> ',
+				subdomains: 'abcd',
+				style: 'main',
+				ext: 'png',
+				apikey: '<insert your API key here>',
+			},
+			variants: {
+				Basic: 'basic',
+				Hybrid: 'hybrid',
+				Labels: 'labels'
+			}
+		},
 		Esri: {
-			url: '//server.arcgisonline.com/ArcGIS/rest/services/{variant}/MapServer/tile/{z}/{y}/{x}',
+			url: 'https://server.arcgisonline.com/ArcGIS/rest/services/{variant}/MapServer/tile/{z}/{y}/{x}',
 			options: {
 				variant: 'World_Street_Map',
 				attribution: 'Tiles &copy; Esri'
@@ -11709,10 +11814,11 @@ return jQuery;
 			}
 		},
 		OpenWeatherMap: {
-			url: 'http://{s}.tile.openweathermap.org/map/{variant}/{z}/{x}/{y}.png',
+			url: 'http://{s}.tile.openweathermap.org/map/{variant}/{z}/{x}/{y}.png?appid={apiKey}',
 			options: {
 				maxZoom: 19,
 				attribution: 'Map data &copy; <a href="http://openweathermap.org">OpenWeatherMap</a>',
+				apiKey: '<insert your api key here>',
 				opacity: 0.5
 			},
 			variants: {
@@ -11732,20 +11838,16 @@ return jQuery;
 		HERE: {
 			/*
 			 * HERE maps, formerly Nokia maps.
-			 * These basemaps are free, but you need an API key. Please sign up at
-			 * http://developer.here.com/getting-started
-			 *
-			 * Note that the base urls contain '.cit' whichs is HERE's
-			 * 'Customer Integration Testing' environment. Please remove for production
-			 * envirionments.
+			 * These basemaps are free, but you need an api id and app key. Please sign up at
+			 * https://developer.here.com/plans
 			 */
 			url:
-				'//{s}.{base}.maps.cit.api.here.com/maptile/2.1/' +
+				'https://{s}.{base}.maps.api.here.com/maptile/2.1/' +
 				'{type}/{mapID}/{variant}/{z}/{x}/{y}/{size}/{format}?' +
 				'app_id={app_id}&app_code={app_code}&lg={language}',
 			options: {
 				attribution:
-					'Map &copy; 1987-2014 <a href="http://developer.here.com">HERE</a>',
+					'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
 				subdomains: '1234',
 				mapID: 'newest',
 				'app_id': '<insert your app_id here>',
@@ -11766,11 +11868,21 @@ return jQuery;
 				normalDayGreyMobile: 'normal.day.grey.mobile',
 				normalDayTransit: 'normal.day.transit',
 				normalDayTransitMobile: 'normal.day.transit.mobile',
+				normalDayTraffic: {
+					options: {
+						variant: 'normal.traffic.day',
+						base: 'traffic',
+						type: 'traffictile'
+					}
+				},
 				normalNight: 'normal.night',
 				normalNightMobile: 'normal.night.mobile',
 				normalNightGrey: 'normal.night.grey',
 				normalNightGreyMobile: 'normal.night.grey.mobile',
-
+				normalNightTransit: 'normal.night.transit',
+				normalNightTransitMobile: 'normal.night.transit.mobile',
+				reducedDay: 'reduced.day',
+				reducedNight: 'reduced.night',
 				basicMap: {
 					options: {
 						type: 'basetile'
@@ -11801,6 +11913,133 @@ return jQuery;
 						variant: 'hybrid.day.mobile'
 					}
 				},
+				hybridDayTransit: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.day.transit'
+					}
+				},
+				hybridDayGrey: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.grey.day'
+					}
+				},
+				hybridDayTraffic: {
+					options: {
+						variant: 'hybrid.traffic.day',
+						base: 'traffic',
+						type: 'traffictile'
+					}
+				},
+				pedestrianDay: 'pedestrian.day',
+				pedestrianNight: 'pedestrian.night',
+				satelliteDay: {
+					options: {
+						base: 'aerial',
+						variant: 'satellite.day'
+					}
+				},
+				terrainDay: {
+					options: {
+						base: 'aerial',
+						variant: 'terrain.day'
+					}
+				},
+				terrainDayMobile: {
+					options: {
+						base: 'aerial',
+						variant: 'terrain.day.mobile'
+					}
+				}
+			}
+		},
+		HEREv3: {
+			/*
+			 * HERE maps API Version 3.
+			 * These basemaps are free, but you need an API key. Please sign up at
+			 * https://developer.here.com/plans
+			 * Version 3 deprecates the app_id and app_code access in favor of apiKey
+			 *
+			 * Supported access methods as of 2019/12/21:
+			 * @see https://developer.here.com/faqs#access-control-1--how-do-you-control-access-to-here-location-services
+			 */
+			url:
+				'https://{s}.{base}.maps.ls.hereapi.com/maptile/2.1/' +
+				'{type}/{mapID}/{variant}/{z}/{x}/{y}/{size}/{format}?' +
+				'apiKey={apiKey}&lg={language}',
+			options: {
+				attribution:
+					'Map &copy; 1987-' + new Date().getFullYear() + ' <a href="http://developer.here.com">HERE</a>',
+				subdomains: '1234',
+				mapID: 'newest',
+				apiKey: '<insert your apiKey here>',
+				base: 'base',
+				variant: 'normal.day',
+				maxZoom: 20,
+				type: 'maptile',
+				language: 'eng',
+				format: 'png8',
+				size: '256'
+			},
+			variants: {
+				normalDay: 'normal.day',
+				normalDayCustom: 'normal.day.custom',
+				normalDayGrey: 'normal.day.grey',
+				normalDayMobile: 'normal.day.mobile',
+				normalDayGreyMobile: 'normal.day.grey.mobile',
+				normalDayTransit: 'normal.day.transit',
+				normalDayTransitMobile: 'normal.day.transit.mobile',
+				normalNight: 'normal.night',
+				normalNightMobile: 'normal.night.mobile',
+				normalNightGrey: 'normal.night.grey',
+				normalNightGreyMobile: 'normal.night.grey.mobile',
+				normalNightTransit: 'normal.night.transit',
+				normalNightTransitMobile: 'normal.night.transit.mobile',
+				reducedDay: 'reduced.day',
+				reducedNight: 'reduced.night',
+				basicMap: {
+					options: {
+						type: 'basetile'
+					}
+				},
+				mapLabels: {
+					options: {
+						type: 'labeltile',
+						format: 'png'
+					}
+				},
+				trafficFlow: {
+					options: {
+						base: 'traffic',
+						type: 'flowtile'
+					}
+				},
+				carnavDayGrey: 'carnav.day.grey',
+				hybridDay: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.day'
+					}
+				},
+				hybridDayMobile: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.day.mobile'
+					}
+				},
+				hybridDayTransit: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.day.transit'
+					}
+				},
+				hybridDayGrey: {
+					options: {
+						base: 'aerial',
+						variant: 'hybrid.grey.day'
+					}
+				},
 				pedestrianDay: 'pedestrian.day',
 				pedestrianNight: 'pedestrian.night',
 				satelliteDay: {
@@ -11824,11 +12063,11 @@ return jQuery;
 			}
 		},
 		FreeMapSK: {
-			url: 'http://t{s}.freemap.sk/T/{z}/{x}/{y}.jpeg',
+			url: 'https://{s}.freemap.sk/T/{z}/{x}/{y}.jpeg',
 			options: {
 				minZoom: 8,
 				maxZoom: 16,
-				subdomains: '1234',
+				subdomains: 'abcd',
 				bounds: [[47.204642, 15.996093], [49.830896, 22.576904]],
 				attribution:
 					'{attribution.OpenStreetMap}, vizualization CC-By-SA 2.0 <a href="http://freemap.sk">Freemap.sk</a>'
@@ -11842,9 +12081,9 @@ return jQuery;
 			}
 		},
 		CartoDB: {
-			url: 'http://{s}.basemaps.cartocdn.com/{variant}/{z}/{x}/{y}.png',
+			url: 'https://{s}.basemaps.cartocdn.com/{variant}/{z}/{x}/{y}{r}.png',
 			options: {
-				attribution: '{attribution.OpenStreetMap} &copy; <a href="http://cartodb.com/attributions">CartoDB</a>',
+				attribution: '{attribution.OpenStreetMap} &copy; <a href="https://carto.com/attributions">CARTO</a>',
 				subdomains: 'abcd',
 				maxZoom: 19,
 				variant: 'light_all'
@@ -11855,11 +12094,15 @@ return jQuery;
 				PositronOnlyLabels: 'light_only_labels',
 				DarkMatter: 'dark_all',
 				DarkMatterNoLabels: 'dark_nolabels',
-				DarkMatterOnlyLabels: 'dark_only_labels'
+				DarkMatterOnlyLabels: 'dark_only_labels',
+				Voyager: 'rastertiles/voyager',
+				VoyagerNoLabels: 'rastertiles/voyager_nolabels',
+				VoyagerOnlyLabels: 'rastertiles/voyager_only_labels',
+				VoyagerLabelsUnder: 'rastertiles/voyager_labels_under'
 			}
 		},
 		HikeBike: {
-			url: 'http://{s}.tiles.wmflabs.org/{variant}/{z}/{x}/{y}.png',
+			url: 'https://tiles.wmflabs.org/{variant}/{z}/{x}/{y}.png',
 			options: {
 				maxZoom: 19,
 				attribution: '{attribution.OpenStreetMap}',
@@ -11876,11 +12119,12 @@ return jQuery;
 			}
 		},
 		BasemapAT: {
-			url: 'https://maps{s}.wien.gv.at/basemap/{variant}/normal/google3857/{z}/{y}/{x}.{format}',
+			url: 'https://maps{s}.wien.gv.at/basemap/{variant}/{type}/google3857/{z}/{y}/{x}.{format}',
 			options: {
 				maxZoom: 19,
-				attribution: 'Datenquelle: <a href="www.basemap.at">basemap.at</a>',
+				attribution: 'Datenquelle: <a href="https://www.basemap.at">basemap.at</a>',
 				subdomains: ['', '1', '2', '3', '4'],
+				type: 'normal',
 				format: 'png',
 				bounds: [[46.358770, 8.782379], [49.037872, 17.189532]],
 				variant: 'geolandbasemap'
@@ -11894,6 +12138,20 @@ return jQuery;
 				},
 				grau: 'bmapgrau',
 				overlay: 'bmapoverlay',
+				terrain: {
+					options: {
+						variant: 'bmapgelaende',
+						type: 'grau',
+						format: 'jpeg'
+					}
+				},
+				surface: {
+					options: {
+						variant: 'bmapoberflaeche',
+						type: 'grau',
+						format: 'jpeg'
+					}
+				},
 				highdpi: {
 					options: {
 						variant: 'bmaphidpi',
@@ -11922,12 +12180,12 @@ return jQuery;
 				'pastel': 'brtachtergrondkaartpastel',
 				'grijs': 'brtachtergrondkaartgrijs',
 				'luchtfoto': {
-					'url': 'https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/1.0.0/2016_ortho25/EPSG:3857/{z}/{x}/{y}.png',
+					'url': 'https://geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/2018_ortho25/EPSG:3857/{z}/{x}/{y}.png',
 				}
 			}
 		},
 		NASAGIBS: {
-			url: '//map1.vis.earthdata.nasa.gov/wmts-webmerc/{variant}/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}',
+			url: 'https://map1.vis.earthdata.nasa.gov/wmts-webmerc/{variant}/default/{time}/{tilematrixset}{maxZoom}/{z}/{y}/{x}.{format}',
 			options: {
 				attribution:
 					'Imagery provided by services from the Global Imagery Browse Services (GIBS), operated by the NASA/GSFC/Earth Science Data and Information System ' +
@@ -11991,7 +12249,7 @@ return jQuery;
 			//   z0-9  - 1:1m
 			//  z10-11 - quarter inch (1:253440)
 			//  z12-18 - one inch (1:63360)
-			url: '//nls-{s}.tileserver.com/nls/{z}/{x}/{y}.jpg',
+			url: 'https://nls-{s}.tileserver.com/nls/{z}/{x}/{y}.jpg',
 			options: {
 				attribution: '<a href="http://geo.nls.uk/maps/">National Library of Scotland Historic Maps</a>',
 				bounds: [[49.6, -12], [61.7, 3]],
@@ -12022,6 +12280,109 @@ return jQuery;
 				nonWhite: 'nonwhite',
 				white: 'white',
 				plurality: 'plural'
+			}
+		},
+		GeoportailFrance: {
+			url: 'https://wxs.ign.fr/{apikey}/geoportail/wmts?REQUEST=GetTile&SERVICE=WMTS&VERSION=1.0.0&STYLE={style}&TILEMATRIXSET=PM&FORMAT={format}&LAYER={variant}&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}',
+			options: {
+				attribution: '<a target="_blank" href="https://www.geoportail.gouv.fr/">Geoportail France</a>',
+				bounds: [[-75, -180], [81, 180]],
+				minZoom: 2,
+				maxZoom: 18,
+				// Get your own geoportail apikey here : http://professionnels.ign.fr/ign/contrats/
+				// NB : 'choisirgeoportail' is a demonstration key that comes with no guarantee
+				apikey: 'choisirgeoportail',
+				format: 'image/png',
+				style: 'normal',
+				variant: 'GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2'
+			},
+			variants: {
+				plan: 'GEOGRAPHICALGRIDSYSTEMS.PLANIGNV2',
+				parcels: {
+					options: {
+						variant: 'CADASTRALPARCELS.PARCELLAIRE_EXPRESS',
+						style: 'PCI vecteur',
+						maxZoom: 20
+					}
+				},
+				orthos: {
+					options: {
+						maxZoom: 19,
+						format: 'image/jpeg',
+						variant: 'ORTHOIMAGERY.ORTHOPHOTOS'
+					}
+				}
+			}
+		},
+		OneMapSG: {
+			url: 'https://maps-{s}.onemap.sg/v3/{variant}/{z}/{x}/{y}.png',
+			options: {
+				variant: 'Default',
+				minZoom: 11,
+				maxZoom: 18,
+				bounds: [[1.56073, 104.11475], [1.16, 103.502]],
+				attribution: '<img src="https://docs.onemap.sg/maps/images/oneMap64-01.png" style="height:20px;width:20px;"/> New OneMap | Map data &copy; contributors, <a href="http://SLA.gov.sg">Singapore Land Authority</a>'
+			},
+			variants: {
+				Default: 'Default',
+				Night: 'Night',
+				Original: 'Original',
+				Grey: 'Grey',
+				LandLot: 'LandLot'
+			}
+		},
+		USGS: {
+			url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}',
+			options: {
+				maxZoom: 20,
+				attribution: 'Tiles courtesy of the <a href="https://usgs.gov/">U.S. Geological Survey</a>'
+			},
+			variants: {
+				USTopo: {},
+				USImagery: {
+					url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer/tile/{z}/{y}/{x}'
+				},
+				USImageryTopo: {
+					url: 'https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryTopo/MapServer/tile/{z}/{y}/{x}'
+				}
+			}
+		},
+		WaymarkedTrails: {
+			url: 'https://tile.waymarkedtrails.org/{variant}/{z}/{x}/{y}.png',
+			options: {
+				maxZoom: 18,
+				attribution: 'Map data: {attribution.OpenStreetMap} | Map style: &copy; <a href="https://waymarkedtrails.org">waymarkedtrails.org</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+			},
+			variants: {
+				hiking: 'hiking',
+				cycling: 'cycling',
+				mtb: 'mtb',
+				slopes: 'slopes',
+				riding: 'riding',
+				skating: 'skating'
+			}
+		},
+		OpenAIP: {
+			url: 'http://{s}.tile.maps.openaip.net/geowebcache/service/tms/1.0.0/openaip_basemap@EPSG%3A900913@png/{z}/{x}/{y}.{ext}',
+			options: {
+				attribution: '<a href="https://www.openaip.net/">openAIP Data</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-NC-SA</a>)',
+				ext: 'png',
+				minZoom: 4,
+				maxZoom: 14,
+				tms: true,
+				detectRetina: true,
+				subdomains: '12'
+			}
+		},
+		OpenSnowMap: {
+			url: 'https://tiles.opensnowmap.org/{variant}/{z}/{x}/{y}.png',
+			options: {
+				minZoom: 9,
+				maxZoom: 18,
+				attribution: 'Map data: {attribution.OpenStreetMap} & ODbL, &copy; <a href="https://www.opensnowmap.org/iframes/data.html">www.opensnowmap.org</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+			},
+			variants: {
+				pistes: 'pistes',
 			}
 		}
 	};
@@ -26757,7 +27118,7 @@ module.exports={
   "fractracker": {
     "name": "FracTracker",
     "url": "https://www.fractracker.org/",
-    "api_url": "https://spreadsheets.google.com/feeds/list/19j4AQmjWuELuzn1GIn0TFRcK42HjdHF_fsIa8jtM1yw/o4rmdye/public/values?alt=json" ,
+    "api_url": "https://spreadsheets.google.com/feeds/list/19j4AQmjWuELuzn1GIn0TFRcK42HjdHF_fsIa8jtM1yw/o4rmdye/public/values?alt=json",
     "data": {
       "type": "",
       "disclaimer": "Data from agency data sets to crowd-sourced data"
@@ -26787,7 +27148,11 @@ module.exports={
   },
   "indigenousLands": {
     "name": "Indigenous Lands",
-    "layers": ["Territories", "Languages", "Treaties"],
+    "layers": [
+      "Territories",
+      "Languages",
+      "Treaties"
+    ],
     "url": "https://native-land.ca/",
     "data": {
       "type": "Historical data",
@@ -26803,7 +27168,17 @@ module.exports={
   },
   "justiceMap": {
     "name": "Justice Map",
-    "layers": ["income", "americanIndian", "asian", "black", "multi", "hispanic", "nonWhite", "white", "plurality"],
+    "layers": [
+      "income",
+      "americanIndian",
+      "asian",
+      "black",
+      "multi",
+      "hispanic",
+      "nonWhite",
+      "white",
+      "plurality"
+    ],
     "url": "http://www.justicemap.org/index.php?giAdvanced=0#instruction_div",
     "data": {
       "type": "",
@@ -26814,9 +27189,15 @@ module.exports={
     "icon": "#f3a482",
     "extents": {
       "bounds": [
-                  [16.97274101999902, -172.880859375],
-                  [71.27259471233448, -38.05664062500001]
-                ],
+        [
+          16.97274101999902,
+          -172.880859375
+        ],
+        [
+          71.27259471233448,
+          -38.05664062500001
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -26878,7 +27259,12 @@ module.exports={
   },
   "openInfraMap": {
     "name": "Open Infra Map",
-    "layers": ["Power", "Petroleum", "Telecom", "Water"],
+    "layers": [
+      "Power",
+      "Petroleum",
+      "Telecom",
+      "Water"
+    ],
     "url": "https://openinframap.org/about.html",
     "contribute_url": "https://openinframap.org/about.html",
     "data": {
@@ -26903,7 +27289,20 @@ module.exports={
   },
   "openWeatherMap": {
     "name": "Open Weather Map",
-    "layers": ["clouds", "cloudsClassic", "precipitation", "precipitationClassic", "rain", "rainClassic", "snow", "pressure", "pressureContour", "temperature", "wind", "city"],
+    "layers": [
+      "clouds",
+      "cloudsClassic",
+      "precipitation",
+      "precipitationClassic",
+      "rain",
+      "rainClassic",
+      "snow",
+      "pressure",
+      "pressureContour",
+      "temperature",
+      "wind",
+      "city"
+    ],
     "url": "https://openweathermap.org/guide",
     "data": {
       "type": "RT",
@@ -26942,9 +27341,15 @@ module.exports={
     "icon": "#b52822",
     "extents": {
       "bounds": [
-                  [16.97274101999902, -172.880859375],
-                  [71.27259471233448, -38.05664062500001]
-                ],
+        [
+          16.97274101999902,
+          -172.880859375
+        ],
+        [
+          71.27259471233448,
+          -38.05664062500001
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -26965,9 +27370,9 @@ module.exports={
       "purpleLayer": {},
       "purpleairmarker": {
         "extents": {
-           "minZoom": 8,
-           "maxZoom": 15
-         }
+          "minZoom": 8,
+          "maxZoom": 15
+        }
       }
     }
   },
@@ -27000,9 +27405,15 @@ module.exports={
     "icon": "#6ccc00",
     "extents": {
       "bounds": [
-                  [60.54377524118842, -21.708984375000004],
-                  [13.66733825965496, -148.27148437500003]
-                ],
+        [
+          60.54377524118842,
+          -21.708984375000004
+        ],
+        [
+          13.66733825965496,
+          -148.27148437500003
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -27020,9 +27431,15 @@ module.exports={
     "icon": "#4f4fff",
     "extents": {
       "bounds": [
-                  [42.2102, -72.0204],
-                  [41.2272, -70.9618]
-                ],
+        [
+          42.2102,
+          -72.0204
+        ],
+        [
+          41.2272,
+          -70.9618
+        ]
+      ],
       "minZoom": 6,
       "maxZoom": 18
     }
@@ -27040,9 +27457,15 @@ module.exports={
     "icon": "#739ccf",
     "extents": {
       "bounds": [
-              [43.689721907017194, -93.12835693359376],
-              [45.60250901510299, -89.54956054687501]
-                ],
+        [
+          43.689721907017194,
+          -93.12835693359376
+        ],
+        [
+          45.60250901510299,
+          -89.54956054687501
+        ]
+      ],
       "minZoom": 10,
       "maxZoom": 15
     }
@@ -27059,12 +27482,39 @@ module.exports={
     "icon": "#096",
     "extents": {
       "bounds": [
-                  [-44.087585028245165, -148.88671875000003],
-                  [76.63922560965888, 140.62500000000003]
-                ],
+        [
+          -44.087585028245165,
+          -148.88671875000003
+        ],
+        [
+          76.63922560965888,
+          140.62500000000003
+        ]
+      ],
       "minZoom": 3,
       "maxZoom": 18
     }
+  },
+  "testSpreadsheetLayer": {
+    "name": "testSpreadsheetLayer",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_desc": "Spreadsheet data",
+    "icon": "#cc12cc"
+  },
+  "Action_Test": {
+    "name": "Action_Test",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "icon": "#cc12cc"
   }
 }
 },{}],14:[function(require,module,exports){
@@ -27677,8 +28127,9 @@ require('./PLpeopleLayer.js');
 require('./layercode.js');
 require('./eonetFiresLayer');
 require('./AllLayers.js');
+require('./spreadsheetLayers')
 
-},{"./AllLayers.js":7,"./PLpeopleLayer.js":8,"./aqicnLayer.js":9,"./eonetFiresLayer":10,"./fracTrackerMobileLayer.js":11,"./indigenousLayers.js":12,"./layercode.js":14,"./openWeatherMapLayer.js":16,"./osmLandfillMineQuarryLayer.js":17,"./pfasLayer.js":18,"./purpleLayer.js":19,"./toxicReleaseLayer.js":20,"./unearthing.js":21,"./wisconsinLayer.js":32,"leaflet-providers":4}],16:[function(require,module,exports){
+},{"./AllLayers.js":7,"./PLpeopleLayer.js":8,"./aqicnLayer.js":9,"./eonetFiresLayer":10,"./fracTrackerMobileLayer.js":11,"./indigenousLayers.js":12,"./layercode.js":14,"./openWeatherMapLayer.js":16,"./osmLandfillMineQuarryLayer.js":17,"./pfasLayer.js":18,"./purpleLayer.js":19,"./spreadsheetLayers":20,"./toxicReleaseLayer.js":22,"./unearthing.js":23,"./wisconsinLayer.js":34,"leaflet-providers":4}],16:[function(require,module,exports){
 L.OWM = L.TileLayer.extend({
   options: {
     appId: '4c6704566155a7d0d5d2f107c5156d6e', /* pass your own AppId as parameter when creating the layer. Get your own AppId at https://www.openweathermap.org/appid */
@@ -29665,6 +30116,36 @@ L.layerGroup.purpleLayer = function(options) {
 };
 
 },{"heatmap.js":1,"leaflet-heatmap":3}],20:[function(require,module,exports){
+const layers = require("./layers.json");
+
+for (const layer of layers) {
+  //Evaluate based on dynamic data
+  let newLayer = function (options) {
+    return new L.SpreadsheetLayer({
+      url: layer.url,
+      lat: "Latitude",
+      lon: "Longitude",
+      generatePopup: function () {},
+      imageOptions: {
+        icon: L.icon.mapKnitterIcon(),
+      },
+    });
+  };
+  eval("L.layerGroup." + layer.name + "=newLayer");
+}
+
+},{"./layers.json":21}],21:[function(require,module,exports){
+module.exports=[
+  {
+    "name": "testSpreadsheetLayer",
+    "url": "https://docs.google.com/spreadsheets/d/1AR2KRuvxgruqLSCzJoIWxcyLDfPAE3tCifQthTHhpFo/"
+  },
+  {
+    "name": "Action_Test",
+    "url": "check"
+  }
+]
+},{}],22:[function(require,module,exports){
 L.Icon.ToxicReleaseIcon = L.Icon.extend({
   options: {
     iconUrl: 'https://www.clker.com/cliparts/r/M/L/o/R/i/green-dot.svg',
@@ -29811,7 +30292,7 @@ L.layerGroup.toxicReleaseLayer = function(options) {
   return new L.LayerGroup.ToxicReleaseLayer(options);
 };
 
-},{"./info.json":13}],21:[function(require,module,exports){
+},{"./info.json":13}],23:[function(require,module,exports){
 L.LayerGroup.unearthing = L.LayerGroup.extend(
 
   {
@@ -29897,7 +30378,7 @@ L.layerGroup.Unearthing = function(options) {
   return new L.LayerGroup.unearthing(options);
 };
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 L.Control.Info = L.Control.extend({
   options: {
     mapHasControl: false
@@ -29942,7 +30423,7 @@ L.control.info = function(options) {
   return new L.Control.Info(options);
 };
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 L.Control.Embed = L.Control.extend({
 
   options: {
@@ -29994,7 +30475,7 @@ L.control.embed = function(options) {
   return new L.Control.Embed(options);
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 L.Control.Layers.include({
   getActiveOverlayNames: function() {
     var layers = [];
@@ -30010,7 +30491,7 @@ L.Control.Layers.include({
   },
 });
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 L.SpreadsheetLayer = L.LayerGroup.extend({
   // options: {
   // Must be supplied:
@@ -30170,7 +30651,7 @@ L.spreadsheetLayer = function(options) {
   return new L.SpreadsheetLayer(options);
 };
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 L.Layer.include({
   onError: function(layerName, group) {
     const mapId = this._map._container.id;
@@ -30206,7 +30687,7 @@ L.Layer.include({
     
   },
 });
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 L.Control.LayersBrowser = L.Control.Layers.extend({
   options: {
     collapsed: true,
@@ -30838,7 +31319,7 @@ L.control.layersBrowser = function(baseLayers, overlays, options) {
   return new L.Control.LayersBrowser(baseLayers, overlays, options);
 };
 
-},{"../info.json":13}],28:[function(require,module,exports){
+},{"../info.json":13}],30:[function(require,module,exports){
 L.Control.LegendControl = L.Control.extend({
   options: {
     position: 'bottomleft',
@@ -30895,7 +31376,7 @@ L.control.legendControl = function(options) {
   return new L.Control.LegendControl(options);
 };
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 L.Control.MinimalMode = L.Control.extend({
 
     options: {
@@ -30980,7 +31461,7 @@ L.Control.MinimalMode = L.Control.extend({
     return new L.Control.MinimalMode(options);
   };
   
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 omsUtil = function(map, options) {
   var oms = new OverlappingMarkerSpiderfier(map, options);
 
@@ -30997,7 +31478,7 @@ omsUtil = function(map, options) {
   return oms;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 TimeAgo = function TimeAgo() {
   var self = {};
 
@@ -31055,7 +31536,7 @@ TimeAgo = function TimeAgo() {
 
   return self;
 };
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 wisconsinLayer = function(map) {
   
   var info = require('./info.json');
@@ -31094,4 +31575,4 @@ wisconsinLayer = function(map) {
   return Wisconsin_NM;
 };
 
-},{"./info.json":13}]},{},[6,15,22,23,24,25,26,27,28,29,30,31]);
+},{"./info.json":13}]},{},[6,15,24,25,26,27,28,29,30,31,32,33]);
