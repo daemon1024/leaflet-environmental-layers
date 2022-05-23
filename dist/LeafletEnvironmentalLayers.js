@@ -26757,7 +26757,7 @@ module.exports={
   "fractracker": {
     "name": "FracTracker",
     "url": "https://www.fractracker.org/",
-    "api_url": "https://spreadsheets.google.com/feeds/list/19j4AQmjWuELuzn1GIn0TFRcK42HjdHF_fsIa8jtM1yw/o4rmdye/public/values?alt=json" ,
+    "api_url": "https://spreadsheets.google.com/feeds/list/19j4AQmjWuELuzn1GIn0TFRcK42HjdHF_fsIa8jtM1yw/o4rmdye/public/values?alt=json",
     "data": {
       "type": "",
       "disclaimer": "Data from agency data sets to crowd-sourced data"
@@ -26787,7 +26787,11 @@ module.exports={
   },
   "indigenousLands": {
     "name": "Indigenous Lands",
-    "layers": ["Territories", "Languages", "Treaties"],
+    "layers": [
+      "Territories",
+      "Languages",
+      "Treaties"
+    ],
     "url": "https://native-land.ca/",
     "data": {
       "type": "Historical data",
@@ -26803,7 +26807,17 @@ module.exports={
   },
   "justiceMap": {
     "name": "Justice Map",
-    "layers": ["income", "americanIndian", "asian", "black", "multi", "hispanic", "nonWhite", "white", "plurality"],
+    "layers": [
+      "income",
+      "americanIndian",
+      "asian",
+      "black",
+      "multi",
+      "hispanic",
+      "nonWhite",
+      "white",
+      "plurality"
+    ],
     "url": "http://www.justicemap.org/index.php?giAdvanced=0#instruction_div",
     "data": {
       "type": "",
@@ -26814,9 +26828,15 @@ module.exports={
     "icon": "#f3a482",
     "extents": {
       "bounds": [
-                  [16.97274101999902, -172.880859375],
-                  [71.27259471233448, -38.05664062500001]
-                ],
+        [
+          16.97274101999902,
+          -172.880859375
+        ],
+        [
+          71.27259471233448,
+          -38.05664062500001
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -26878,7 +26898,12 @@ module.exports={
   },
   "openInfraMap": {
     "name": "Open Infra Map",
-    "layers": ["Power", "Petroleum", "Telecom", "Water"],
+    "layers": [
+      "Power",
+      "Petroleum",
+      "Telecom",
+      "Water"
+    ],
     "url": "https://openinframap.org/about.html",
     "contribute_url": "https://openinframap.org/about.html",
     "data": {
@@ -26903,7 +26928,20 @@ module.exports={
   },
   "openWeatherMap": {
     "name": "Open Weather Map",
-    "layers": ["clouds", "cloudsClassic", "precipitation", "precipitationClassic", "rain", "rainClassic", "snow", "pressure", "pressureContour", "temperature", "wind", "city"],
+    "layers": [
+      "clouds",
+      "cloudsClassic",
+      "precipitation",
+      "precipitationClassic",
+      "rain",
+      "rainClassic",
+      "snow",
+      "pressure",
+      "pressureContour",
+      "temperature",
+      "wind",
+      "city"
+    ],
     "url": "https://openweathermap.org/guide",
     "data": {
       "type": "RT",
@@ -26942,9 +26980,15 @@ module.exports={
     "icon": "#b52822",
     "extents": {
       "bounds": [
-                  [16.97274101999902, -172.880859375],
-                  [71.27259471233448, -38.05664062500001]
-                ],
+        [
+          16.97274101999902,
+          -172.880859375
+        ],
+        [
+          71.27259471233448,
+          -38.05664062500001
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -26965,9 +27009,9 @@ module.exports={
       "purpleLayer": {},
       "purpleairmarker": {
         "extents": {
-           "minZoom": 8,
-           "maxZoom": 15
-         }
+          "minZoom": 8,
+          "maxZoom": 15
+        }
       }
     }
   },
@@ -27000,9 +27044,15 @@ module.exports={
     "icon": "#6ccc00",
     "extents": {
       "bounds": [
-                  [60.54377524118842, -21.708984375000004],
-                  [13.66733825965496, -148.27148437500003]
-                ],
+        [
+          60.54377524118842,
+          -21.708984375000004
+        ],
+        [
+          13.66733825965496,
+          -148.27148437500003
+        ]
+      ],
       "minZoom": 5,
       "maxZoom": 15
     }
@@ -27020,9 +27070,15 @@ module.exports={
     "icon": "#4f4fff",
     "extents": {
       "bounds": [
-                  [42.2102, -72.0204],
-                  [41.2272, -70.9618]
-                ],
+        [
+          42.2102,
+          -72.0204
+        ],
+        [
+          41.2272,
+          -70.9618
+        ]
+      ],
       "minZoom": 6,
       "maxZoom": 18
     }
@@ -27040,9 +27096,15 @@ module.exports={
     "icon": "#739ccf",
     "extents": {
       "bounds": [
-              [43.689721907017194, -93.12835693359376],
-              [45.60250901510299, -89.54956054687501]
-                ],
+        [
+          43.689721907017194,
+          -93.12835693359376
+        ],
+        [
+          45.60250901510299,
+          -89.54956054687501
+        ]
+      ],
       "minZoom": 10,
       "maxZoom": 15
     }
@@ -27059,12 +27121,39 @@ module.exports={
     "icon": "#096",
     "extents": {
       "bounds": [
-                  [-44.087585028245165, -148.88671875000003],
-                  [76.63922560965888, 140.62500000000003]
-                ],
+        [
+          -44.087585028245165,
+          -148.88671875000003
+        ],
+        [
+          76.63922560965888,
+          140.62500000000003
+        ]
+      ],
       "minZoom": 3,
       "maxZoom": 18
     }
+  },
+  "testSpreadsheetLayer": {
+    "name": "testSpreadsheetLayer",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_desc": "Spreadsheet data",
+    "icon": "#cc12cc"
+  },
+  "Hello_World": {
+    "name": "Hello_World",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "icon": "#cc12cc"
   }
 }
 },{}],14:[function(require,module,exports){
@@ -27677,8 +27766,9 @@ require('./PLpeopleLayer.js');
 require('./layercode.js');
 require('./eonetFiresLayer');
 require('./AllLayers.js');
+require('./spreadsheetLayers')
 
-},{"./AllLayers.js":7,"./PLpeopleLayer.js":8,"./aqicnLayer.js":9,"./eonetFiresLayer":10,"./fracTrackerMobileLayer.js":11,"./indigenousLayers.js":12,"./layercode.js":14,"./openWeatherMapLayer.js":16,"./osmLandfillMineQuarryLayer.js":17,"./pfasLayer.js":18,"./purpleLayer.js":19,"./toxicReleaseLayer.js":20,"./unearthing.js":21,"./wisconsinLayer.js":32,"leaflet-providers":4}],16:[function(require,module,exports){
+},{"./AllLayers.js":7,"./PLpeopleLayer.js":8,"./aqicnLayer.js":9,"./eonetFiresLayer":10,"./fracTrackerMobileLayer.js":11,"./indigenousLayers.js":12,"./layercode.js":14,"./openWeatherMapLayer.js":16,"./osmLandfillMineQuarryLayer.js":17,"./pfasLayer.js":18,"./purpleLayer.js":19,"./spreadsheetLayers":20,"./toxicReleaseLayer.js":22,"./unearthing.js":23,"./wisconsinLayer.js":34,"leaflet-providers":4}],16:[function(require,module,exports){
 L.OWM = L.TileLayer.extend({
   options: {
     appId: '4c6704566155a7d0d5d2f107c5156d6e', /* pass your own AppId as parameter when creating the layer. Get your own AppId at https://www.openweathermap.org/appid */
@@ -29665,6 +29755,36 @@ L.layerGroup.purpleLayer = function(options) {
 };
 
 },{"heatmap.js":1,"leaflet-heatmap":3}],20:[function(require,module,exports){
+const layers = require("./layers.json");
+
+for (const layer of layers) {
+  //Evaluate based on dynamic data
+  let newLayer = function (options) {
+    return new L.SpreadsheetLayer({
+      url: layer.url,
+      lat: "Latitude",
+      lon: "Longitude",
+      generatePopup: function () {},
+      imageOptions: {
+        icon: L.icon.mapKnitterIcon(),
+      },
+    });
+  };
+  eval("L.layerGroup." + layer.name + "=newLayer");
+}
+
+},{"./layers.json":21}],21:[function(require,module,exports){
+module.exports=[
+  {
+    "name": "testSpreadsheetLayer",
+    "url": "https://docs.google.com/spreadsheets/d/1AR2KRuvxgruqLSCzJoIWxcyLDfPAE3tCifQthTHhpFo/"
+  },
+  {
+    "name": "Hello_World",
+    "url": "https://docs.google.com/spreadsheets/d/1J9rqD-JfbGt5AdBYIpkeBZxetURSnIjlajkEX-aYvSk/edit#gid=0"
+  }
+]
+},{}],22:[function(require,module,exports){
 L.Icon.ToxicReleaseIcon = L.Icon.extend({
   options: {
     iconUrl: 'https://www.clker.com/cliparts/r/M/L/o/R/i/green-dot.svg',
@@ -29811,7 +29931,7 @@ L.layerGroup.toxicReleaseLayer = function(options) {
   return new L.LayerGroup.ToxicReleaseLayer(options);
 };
 
-},{"./info.json":13}],21:[function(require,module,exports){
+},{"./info.json":13}],23:[function(require,module,exports){
 L.LayerGroup.unearthing = L.LayerGroup.extend(
 
   {
@@ -29897,7 +30017,7 @@ L.layerGroup.Unearthing = function(options) {
   return new L.LayerGroup.unearthing(options);
 };
 
-},{}],22:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 L.Control.Info = L.Control.extend({
   options: {
     mapHasControl: false
@@ -29942,7 +30062,7 @@ L.control.info = function(options) {
   return new L.Control.Info(options);
 };
 
-},{}],23:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 L.Control.Embed = L.Control.extend({
 
   options: {
@@ -29994,7 +30114,7 @@ L.control.embed = function(options) {
   return new L.Control.Embed(options);
 };
 
-},{}],24:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 L.Control.Layers.include({
   getActiveOverlayNames: function() {
     var layers = [];
@@ -30010,7 +30130,7 @@ L.Control.Layers.include({
   },
 });
 
-},{}],25:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 L.SpreadsheetLayer = L.LayerGroup.extend({
   // options: {
   // Must be supplied:
@@ -30170,7 +30290,7 @@ L.spreadsheetLayer = function(options) {
   return new L.SpreadsheetLayer(options);
 };
 
-},{}],26:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 L.Layer.include({
   onError: function(layerName, group) {
     const mapId = this._map._container.id;
@@ -30206,7 +30326,7 @@ L.Layer.include({
     
   },
 });
-},{}],27:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 L.Control.LayersBrowser = L.Control.Layers.extend({
   options: {
     collapsed: true,
@@ -30838,7 +30958,7 @@ L.control.layersBrowser = function(baseLayers, overlays, options) {
   return new L.Control.LayersBrowser(baseLayers, overlays, options);
 };
 
-},{"../info.json":13}],28:[function(require,module,exports){
+},{"../info.json":13}],30:[function(require,module,exports){
 L.Control.LegendControl = L.Control.extend({
   options: {
     position: 'bottomleft',
@@ -30895,7 +31015,7 @@ L.control.legendControl = function(options) {
   return new L.Control.LegendControl(options);
 };
 
-},{}],29:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 L.Control.MinimalMode = L.Control.extend({
 
     options: {
@@ -30980,7 +31100,7 @@ L.Control.MinimalMode = L.Control.extend({
     return new L.Control.MinimalMode(options);
   };
   
-},{}],30:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 omsUtil = function(map, options) {
   var oms = new OverlappingMarkerSpiderfier(map, options);
 
@@ -30997,7 +31117,7 @@ omsUtil = function(map, options) {
   return oms;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],33:[function(require,module,exports){
 TimeAgo = function TimeAgo() {
   var self = {};
 
@@ -31055,7 +31175,7 @@ TimeAgo = function TimeAgo() {
 
   return self;
 };
-},{}],32:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 wisconsinLayer = function(map) {
   
   var info = require('./info.json');
@@ -31094,4 +31214,4 @@ wisconsinLayer = function(map) {
   return Wisconsin_NM;
 };
 
-},{"./info.json":13}]},{},[6,15,22,23,24,25,26,27,28,29,30,31]);
+},{"./info.json":13}]},{},[6,15,24,25,26,27,28,29,30,31,32,33]);
