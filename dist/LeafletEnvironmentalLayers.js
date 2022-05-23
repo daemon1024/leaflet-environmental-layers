@@ -36553,6 +36553,17 @@ module.exports={
     "description": "",
     "layer_desc": "Spreadsheet data",
     "icon": "#cc12cc"
+  },
+  "open-source": {
+    "name": "open-source",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_group": 0,
+    "icon": "#cc12cc"
   }
 }
 },{}],54:[function(require,module,exports){
@@ -39230,6 +39241,10 @@ for (const layer of layers) {
 module.exports=[
   {
     "name": "testSpreadsheetLayer",
+    "url": "https://docs.google.com/spreadsheets/d/1AR2KRuvxgruqLSCzJoIWxcyLDfPAE3tCifQthTHhpFo/"
+  },
+  {
+    "name": "open-source",
     "url": "https://docs.google.com/spreadsheets/d/1AR2KRuvxgruqLSCzJoIWxcyLDfPAE3tCifQthTHhpFo/"
   }
 ]
