@@ -411,5 +411,16 @@
     "description": "",
     "layer_desc": "Spreadsheet data",
     "icon": "#cc12cc"
+  },
+  "Test-Workflow2": {
+    "name": "Test-Workflow2",
+    "url": "",
+    "data": {
+      "type": "",
+      "disclaimer": ""
+    },
+    "description": "",
+    "layer_desc": "Spreadsheet test data",
+    "icon": "#cc12cc"
   }
 }
